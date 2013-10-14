@@ -18,7 +18,7 @@ build-stamp:
 	# Add here commands to compile the package.
 	phpize --clean && \
 	phpize && \
-	./configure && \
+	./configure --with-libredis=$(DEB_SRCDIR) && \
 	make && \
 	touch build-stamp
 
