@@ -1,0 +1,6 @@
+#!/bin/bash
+
+[ -d /etc/php5/conf.d ] && echo extension=libredis.so > /etc/php5/conf.d/libredis.ini
+
+exit 0
+

@@ -1,0 +1,13 @@
+Source: php5-libredis
+Section: php
+Priority: optional
+Maintainer: Jordi Clariana <jordiclariana@gmail.com>
+Build-Depends: debhelper (>= 7.0.50~), php5-dev
+Standards-Version: 3.8.4
+Homepage: https://github.com/jordiclariana/php-libredis
+
+Package: php5-libredis
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Libredis is general client library for Redis written in C.
+ Libredis is general client library for Redis written in C.

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+[ -e /etc/php5/conf.d/libredis.ini ] && rm -f /etc/php5/conf.d/libredis.ini
+
+exit 0
+

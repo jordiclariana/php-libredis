@@ -1,0 +1,5 @@
+php5-libredis (1.0.2) unstable; urgency=low
+
+  * Initial release
+
+ -- Jordi Clariana <jordiclariana@gmail.com>  Mon, 14 Oct 2013 17:28:41 +0200
