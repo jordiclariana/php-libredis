@@ -1,6 +1,15 @@
 #!/bin/bash
 
-[ -e /etc/php5/conf.d/libredis.ini ] && rm -f /etc/php5/conf.d/libredis.ini
+ourname=libredis
+
+if [ -d /etc/php5/mods-available ]; then
+  if [ -e "/etc/php5/mods-available/${ourname}.ini" ]; then
+    php5dismod "${ourname}" >/dev/null 2>&1
+    rm -f "/etc/php5/mods-available/${ourname}.ini"
+  fi
+else
+  rm -f "/etc/php5/conf.d/${ourname}.ini"
+fi
 
 exit 0
 

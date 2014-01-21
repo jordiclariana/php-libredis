@@ -1,6 +1,32 @@
 #!/bin/bash
 
-[ -d /etc/php5/conf.d ] && echo extension=libredis.so > /etc/php5/conf.d/libredis.ini
+ourname=libredis
+
+if [ -d /etc/php5/conf.d ]; then
+
+  # check whether we have the new-style layout (php 5.4)
+
+  if [ -d /etc/php5/mods-available ]; then
+  
+    # remove legacy file if found
+    [ -e "/etc/php5/conf.d/${ourname}.ini" ] && rm "/etc/php5/conf.d/${ourname}.ini"
+
+    # install new file only if not present already
+    if [ -d /etc/php5/mods-available ] && [ ! -e "/etc/php5/mods-available/${ourname}.ini" ]; then
+      echo "extension=${ourname}.so" > "/etc/php5/mods-available/${ourname}.ini"
+      php5enmod "${ourname}"
+    fi
+
+  else
+
+    # old style, directly in conf.d
+    if [ ! -e "/etc/php5/conf.d/${ourname}.ini" ]; then
+      echo "extension=${ourname}.so" > "/etc/php5/conf.d/${ourname}.ini"
+    fi
+
+  fi
+
+fi
 
 exit 0
 
