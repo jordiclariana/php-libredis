@@ -1,31 +1,30 @@
 #!/bin/bash
 
+PHP_VERSION=$(/usr/bin/php-config --version)
+PHP_VERSION_MAJOR=$(echo ${PHP_VERSION} | sed -r 's/^([0-9]+)\..*$/\1/')
+PHP_VERSION_MINOR=$(echo ${PHP_VERSION} | sed -r 's/^[0-9]+\.([0-9]+).*$/\1/')
+
 ourname=libredis
 
-if [ -d /etc/php5/conf.d ]; then
+# check whether we have the new-style layout (php 5.4)
+if [ ${PHP_VERSION_MAJOR} -eq 5 ] && [ ${PHP_VERSION_MINOR} -ge 4 ]; then
+    [ ! -d /etc/php5/mods-available ] && { echo "Error: no /etc/php5/mods-available dir found"; exit 1; }
 
-  # check whether we have the new-style layout (php 5.4)
-
-  if [ -d /etc/php5/mods-available ]; then
-  
     # remove legacy file if found
     [ -e "/etc/php5/conf.d/${ourname}.ini" ] && rm "/etc/php5/conf.d/${ourname}.ini"
 
     # install new file only if not present already
-    if [ -d /etc/php5/mods-available ] && [ ! -e "/etc/php5/mods-available/${ourname}.ini" ]; then
+    if [ ! -e "/etc/php5/mods-available/${ourname}.ini" ]; then
       echo "extension=${ourname}.so" > "/etc/php5/mods-available/${ourname}.ini"
       php5enmod "${ourname}"
     fi
-
-  else
-
+else
     # old style, directly in conf.d
+    [ ! -d /etc/php5/conf.d ] && { echo "Error: no /etc/php5/conf.d dir found"; exit 1; }
+
     if [ ! -e "/etc/php5/conf.d/${ourname}.ini" ]; then
       echo "extension=${ourname}.so" > "/etc/php5/conf.d/${ourname}.ini"
     fi
-
-  fi
-
 fi
 
 exit 0
